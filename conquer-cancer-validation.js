@@ -30,7 +30,7 @@ window.onload = () => {
           const inputValid = addressRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else if (inputType == "ccnumber") {
-          const ccRegex = new RegExp(/^[0-9]{15}|[0-9]{16}$/m);
+          const ccRegex = new RegExp(/^([0-9]{15}|[0-9]{16})$/ms);
           const inputValid = ccRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else {
