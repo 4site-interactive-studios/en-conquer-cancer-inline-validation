@@ -23,7 +23,8 @@ window.onload = () => {
           const inputValid = phoneRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else if (inputType == "emailAddress") {
-          const inputValid = targetNode.validity.valid;
+          const inputValid =
+            targetNode.validity.valid && targetNode.value != "";
           validateInput(inputValid, targetNode, required);
         } else if (inputType == "ccnumber") {
           const ccRegex = new RegExp(/^([0-9]{15}|[0-9]{16})$/ms);
