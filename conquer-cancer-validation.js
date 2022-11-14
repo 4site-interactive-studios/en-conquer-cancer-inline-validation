@@ -25,13 +25,13 @@ window.onload = () => {
         } else if (inputType == "emailAddress") {
           const inputValid = targetNode.validity.valid;
           validateInput(inputValid, targetNode, required);
-        } else if (inputType == "address1" || inputType == "address2") {
-          const addressRegex = new RegExp(/^[a-zA-Z0-9\s\.]+$/m);
-          const inputValid = addressRegex.test(targetNode.value);
-          validateInput(inputValid, targetNode, required);
         } else if (inputType == "ccnumber") {
           const ccRegex = new RegExp(/^([0-9]{15}|[0-9]{16})$/ms);
           const inputValid = ccRegex.test(targetNode.value);
+          validateInput(inputValid, targetNode, required);
+        } else if (inputType == "ccvv") {
+          const ccvRegex = new RegExp(/^([0-9]{3}|[0-9]{4})$/ms);
+          const inputValid = ccvRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else {
           //Handle general validation cases
