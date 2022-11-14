@@ -1,6 +1,6 @@
 window.addEventListener("load", () => {
   const formInputs = document
-    .querySelectorAll("form.en__component input")
+    .querySelectorAll("form.en__component .en__field__input--text")
     .forEach((input) => {
       input.addEventListener("focusout", (e) => {
         const targetNode = e.target;
@@ -53,16 +53,18 @@ window.addEventListener("load", () => {
   // Remove valid class from input on submit if validation failed
   document.querySelector(".en__submit").addEventListener("click", () => {
     setTimeout(() => {
-      document.querySelectorAll("form.en__component input").forEach((input) => {
-        const inputValid =
-          !input.parentElement.parentElement.classList.contains(
-            "en__field--validationFailed"
-          );
+      document
+        .querySelectorAll("form.en__component .en__field__input--text")
+        .forEach((input) => {
+          const inputValid =
+            !input.parentElement.parentElement.classList.contains(
+              "en__field--validationFailed"
+            );
 
-        if (!inputValid) {
-          input.classList.remove("input-valid");
-        }
-      });
+          if (!inputValid) {
+            input.classList.remove("input-valid");
+          }
+        });
     }, 400);
   });
 });
