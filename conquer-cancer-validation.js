@@ -1,4 +1,4 @@
-window.onload = () => {
+window.addEventListener("load", () => {
   const formInputs = document
     .querySelectorAll("form.en__component input")
     .forEach((input) => {
@@ -24,7 +24,7 @@ window.onload = () => {
           const phoneRegex = new RegExp(
             /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
           );
-          const inputValid = phoneRegex.test(targetNode.value);
+          inputValid = inputValid && phoneRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else if (inputType == "emailAddress") {
           const inputValid =
@@ -49,8 +49,23 @@ window.onload = () => {
         }
       });
     });
-};
 
+  // Remove valid class from input on submit if validation failed
+  document.querySelector(".en__submit").addEventListener("click", () => {
+    setTimeout(() => {
+      document.querySelectorAll("form.en__component input").forEach((input) => {
+        const inputValid =
+          !input.parentElement.parentElement.classList.contains(
+            "en__field--validationFailed"
+          );
+
+        if (!inputValid) {
+          input.classList.remove("input-valid");
+        }
+      });
+    }, 400);
+  });
+});
 function addInvalidStyle(node, invalidText = "Invalid input") {
   node.classList.add("input-invalid");
   const oldText = node.parentElement.querySelector(".invalid-text");
