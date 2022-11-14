@@ -15,7 +15,7 @@ window.onload = () => {
           return;
         }
 
-        if (targetNode.name == "ecard.schedule") {
+        if (targetNode.type == "date") {
           return;
         }
 
