@@ -3,7 +3,7 @@ window.onload = () => {
     .querySelectorAll("form.en__component input")
     .forEach((input) => {
       input.addEventListener("focusout", (e) => {
-        const targetNode = document.querySelector(`[name='${e.target.name}']`);
+        const targetNode = e.target;
         const required =
           targetNode.parentElement.parentElement.classList.contains(
             "en__mandatory"
@@ -12,6 +12,10 @@ window.onload = () => {
 
         if (!required && targetNode.value == "") {
           targetNode.classList.remove("input-valid");
+          return;
+        }
+
+        if (targetNode.name == "ecard.schedule") {
           return;
         }
 
