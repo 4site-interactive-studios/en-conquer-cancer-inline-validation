@@ -2,6 +2,12 @@ window.addEventListener("load", () => {
   document
     .querySelectorAll("form.en__component .en__field__input")
     .forEach((input) => {
+      // Validate fields that are filled on page load
+      console.log(input.value);
+      if (input.value != "") {
+        validateInput(true, input, false);
+      }
+
       input.addEventListener("focusout", (e) => {
         const targetNode = e.target;
         const required =
