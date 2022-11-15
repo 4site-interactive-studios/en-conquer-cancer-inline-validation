@@ -1,5 +1,5 @@
 window.addEventListener("load", () => {
-  const formInputs = document
+  document
     .querySelectorAll("form.en__component .en__field__input--text")
     .forEach((input) => {
       input.addEventListener("focusout", (e) => {
@@ -40,12 +40,8 @@ window.addEventListener("load", () => {
           validateInput(inputValid, targetNode, required);
         } else {
           //Handle general validation cases
-          if (required) {
-            const inputValid = targetNode.value != "";
-            validateInput(inputValid, targetNode, required);
-          } else if (!required) {
-            validateInput(true, targetNode, required);
-          }
+          const inputValid = (required && targetNode.value != "") || !required;
+          validateInput(inputValid, targetNode, required);
         }
       });
     });
