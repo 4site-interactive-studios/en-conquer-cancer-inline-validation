@@ -1,6 +1,6 @@
 window.addEventListener("load", () => {
   document
-    .querySelectorAll("form.en__component .en__field__input--text")
+    .querySelectorAll("form.en__component .en__field__input")
     .forEach((input) => {
       input.addEventListener("focusout", (e) => {
         const targetNode = e.target;
@@ -50,7 +50,7 @@ window.addEventListener("load", () => {
   document.querySelector(".en__submit").addEventListener("click", () => {
     setTimeout(() => {
       document
-        .querySelectorAll("form.en__component .en__field__input--text")
+        .querySelectorAll("form.en__component .en__field__input")
         .forEach((input) => {
           const inputValid =
             !input.parentElement.parentElement.classList.contains(
@@ -59,11 +59,13 @@ window.addEventListener("load", () => {
 
           if (!inputValid) {
             input.classList.remove("input-valid");
+            input.classList.add("input-invalid");
           }
         });
     }, 400);
   });
 });
+
 function addInvalidStyle(node, invalidText = "Invalid input") {
   node.classList.add("input-invalid");
   const oldText = node.parentElement.querySelector(".invalid-text");
