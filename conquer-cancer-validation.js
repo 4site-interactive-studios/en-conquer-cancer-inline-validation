@@ -55,7 +55,7 @@ window.addEventListener("load", () => {
           const phoneRegex = new RegExp(
             /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
           );
-          inputValid = inputValid && phoneRegex.test(targetNode.value);
+          const inputValid = inputValid && phoneRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else if (inputType == "emailAddress") {
           const inputValid =
