@@ -12,16 +12,22 @@ window.addEventListener("load", () => {
       }
 
       // Detect autofilled fields
-      input.addEventListener("input", (e) => {
-        if (e.target.value != "") {
-          e.target.parentElement.classList.add("autofilled-input-valid");
+      input.addEventListener("change", (e) => {
+        setTimeout(() => {
+          console.log(getComputedStyle(e.target).backgroundColor);
+          if (
+            e.target.value != "" &&
+            getComputedStyle(e.target).backgroundColor != "rgb(254, 254, 254)"
+          ) {
+            e.target.parentElement.classList.add("autofilled-input-valid");
 
-          if (e.target == document.activeElement) {
-            e.target.parentElement.classList.add("selected-autofill-field");
+            if (e.target == document.activeElement) {
+              e.target.parentElement.classList.add("selected-autofill-field");
+            }
+          } else {
+            e.target.parentElement.classList.remove("autofilled-input-valid");
           }
-        } else {
-          e.target.parentElement.classList.remove("autofilled-input-valid");
-        }
+        }, 300);
       });
 
       input.addEventListener("focusout", (e) => {
