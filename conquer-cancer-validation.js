@@ -2,11 +2,27 @@ window.addEventListener("load", () => {
   document
     .querySelectorAll("form.en__component .en__field__input")
     .forEach((input) => {
+      if (input.classList.contains("en__field__input--select")) {
+        return;
+      }
+
       // Validate fields that are filled on page load
-      console.log(input.value);
       if (input.value != "") {
         validateInput(true, input, false);
       }
+
+      // Detect autofilled fields
+      input.addEventListener("input", (e) => {
+        if (e.target.value != "") {
+          e.target.parentElement.classList.add("autofilled-input-valid");
+
+          if (e.target == document.activeElement) {
+            e.target.parentElement.classList.add("selected-autofill-field");
+          }
+        } else {
+          e.target.parentElement.classList.remove("autofilled-input-valid");
+        }
+      });
 
       input.addEventListener("focusout", (e) => {
         const targetNode = e.target;
@@ -16,8 +32,17 @@ window.addEventListener("load", () => {
           );
         const inputType = targetNode.name.split(".")[1];
 
+        // Ignore input if form was just autofilled
+        if (
+          targetNode.parentElement.classList.contains("selected-autofill-field")
+        ) {
+          targetNode.parentElement.classList.remove("selected-autofill-field");
+          return;
+        }
+
         if (!required && targetNode.value == "") {
           targetNode.classList.remove("input-valid");
+          targetNode.parentElement.classList.remove("autofilled-input-valid");
           return;
         }
 
@@ -64,6 +89,7 @@ window.addEventListener("load", () => {
             );
 
           if (!inputValid) {
+            input.parentElement.classList.remove("autofilled-input-valid");
             input.classList.remove("input-valid");
             input.classList.add("input-invalid");
           }
@@ -98,6 +124,8 @@ function removeInvalidStyle(node) {
 }
 
 function validateInput(valid, node, required) {
+  node.parentElement.classList.remove("autofilled-input-valid");
+
   if (!valid) {
     node.classList.remove("input-valid");
 
