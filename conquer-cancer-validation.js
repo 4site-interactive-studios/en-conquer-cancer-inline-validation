@@ -14,7 +14,6 @@ window.addEventListener("load", () => {
       // Detect autofilled fields
       input.addEventListener("change", (e) => {
         setTimeout(() => {
-          console.log(getComputedStyle(e.target).backgroundColor);
           if (
             e.target.value != "" &&
             getComputedStyle(e.target).backgroundColor != "rgb(254, 254, 254)"
