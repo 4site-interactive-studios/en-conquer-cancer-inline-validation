@@ -1,6 +1,8 @@
 window.addEventListener("load", () => {
   document
-    .querySelectorAll("form.en__component .en__field__input")
+    .querySelectorAll(
+      "form.en__component .en__field__input, .en__ecardmessage textarea[name='transaction.comments'], .en__ecardrecipients__detail input"
+    )
     .forEach((input) => {
       if (input.classList.contains("en__field__input--select")) {
         return;
@@ -18,6 +20,8 @@ window.addEventListener("load", () => {
             e.target.value != "" &&
             getComputedStyle(e.target).backgroundColor != "rgb(254, 254, 254)"
           ) {
+            e.target.classList.remove("input-invalid");
+            e.target.parentElement.querySelector(".invalid-text")?.remove();
             e.target.parentElement.classList.add("autofilled-input-valid");
 
             if (e.target == document.activeElement) {
@@ -31,9 +35,12 @@ window.addEventListener("load", () => {
 
       input.addEventListener("focusout", (e) => {
         const targetNode = e.target;
+        const parent = e.target.parentElement;
         const required =
-          targetNode.parentElement.parentElement.classList.contains(
-            "en__mandatory"
+          parent.parentElement.classList.contains("en__mandatory") ||
+          parent.classList.contains("en__ecardmessage") ||
+          parent.parentElement.classList.contains(
+            "en__ecardrecipients__detail"
           );
         const inputType = targetNode.name.split(".")[1];
 
@@ -62,9 +69,15 @@ window.addEventListener("load", () => {
           );
           const inputValid = inputValid && phoneRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
-        } else if (inputType == "emailAddress") {
+        } else if (
+          inputType == "emailAddress" ||
+          targetNode.parentElement.classList.contains(
+            "en__ecardrecipients__email"
+          )
+        ) {
+          const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/ms);
           const inputValid =
-            targetNode.validity.valid && targetNode.value != "";
+            targetNode.value != "" && emailRegex.test(targetNode.value);
           validateInput(inputValid, targetNode, required);
         } else if (inputType == "ccnumber") {
           const ccRegex = new RegExp(/^([0-9]{15}|[0-9]{16})$/ms);
@@ -129,6 +142,13 @@ function removeInvalidStyle(node) {
 }
 
 function validateInput(valid, node, required) {
+  if (
+    node.parentElement.classList.contains("autofilled-input-valid") &&
+    getComputedStyle(node).backgroundColor != "rgb(254, 254, 254)"
+  ) {
+    return;
+  }
+
   node.parentElement.classList.remove("autofilled-input-valid");
 
   if (!valid) {
